@@ -5,14 +5,3 @@ resource "aws_vpc" "main" {
   tags = var.tags
 }
 
-variable "cidr_block" {
-  default = "10.0.0.0/16"
-}
-
-variable "instance_tenancy" {
-  default = "default"
-}
-
-variable "tags" {
-  
-}
