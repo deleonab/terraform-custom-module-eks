@@ -24,14 +24,17 @@ variables.tf
 ### VPC ######### VPC ######################
 
 # main.tf
+```
 resource "aws_vpc" "acme_vpc" {
   cidr_block       = var.vpc_cidr_block
   instance_tenancy = var.instance_tenancy
 
   tags = var.tags
 }
-
+```
 # variables.tf
+
+```
 variable "vpc_cidr_block" {
   default = "10.0.0.0/16"
 }
@@ -43,3 +46,38 @@ variable "instance_tenancy" {
 variable "tags" {
   
 }
+```
+
+
+#####  SUBNETS ###########
+
+# main.tf
+```
+resource "aws_subnet" "main" {
+  vpc_id     = var.vpc_id
+  cidr_block = var.cidr_block
+  availability_zone = var.availability_zone
+
+  tags = var.tags
+}
+
+```
+
+# variables.tf
+```
+variable "subnet_cidr_block" {
+  default = "10.0.0.0/24"
+}
+
+variable "availability_zone" {
+  
+}
+variable "tags" {
+  
+}
+
+variable "vpc_id"{
+
+}
+
+```
