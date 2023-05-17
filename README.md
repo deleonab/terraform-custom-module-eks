@@ -81,3 +81,16 @@ variable "vpc_id"{
 }
 
 ```
+
+### Let's call the modules into out main.tf at the root level
+
+```
+module "aws_vpc_module" {
+  source = "./modules/aws_vpc"
+}
+
+module "aws_subnet_module" {
+  source = "./modules/aws_subnets"
+}
+
+```
