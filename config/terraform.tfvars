@@ -1,3 +1,5 @@
+region = "us-east-1"
+
 vpc_config = {
 
 vpc01 = {
@@ -19,8 +21,8 @@ subnet_config = {
 
 "public_us_east_1a" = {
 
-
-subnet_cidr_block = "10.0.1.0/18"
+vpc_name = "vpc01"
+subnet_cidr_block = "10.0.0.0/18"
 
 availability_zone = "us-east-1a"
 
@@ -31,8 +33,8 @@ tags = {
 }
 
 "public_us_east_1b" = {
-
-subnet_cidr_block = "10.0.101.0/18"
+vpc_name = "vpc01"
+subnet_cidr_block = "10.0.64.0/18"
 
 availability_zone = "us-east-1b"
 
@@ -42,7 +44,8 @@ tags = {
 }
 
 "private_us_east_1a" = {
-subnet_cidr_block = "10.0.151.0/18"
+vpc_name = "vpc01"
+subnet_cidr_block = "10.0.128.0/18"
 
 availability_zone = "us-east-1b"
 
@@ -53,7 +56,8 @@ tags = {
 }
 
 "private_us_east_1b" = {
-subnet_cidr_block = "10.0.201.0/18"
+vpc_name = "vpc01"
+subnet_cidr_block = "10.0.192.0/18"
 
 availability_zone = "us-east-1b"
 
@@ -63,4 +67,39 @@ tags = {
     
 }
 
+}
+
+IGW_config = {
+vpc_name = "vpc01"
+vpc_id = ""
+
+tags = {
+    "Name" = "ACME-IGW"
+}
+
+
+}
+
+rtb_config = {
+
+publicrtb = {
+vpc_name = "vpc01"
+route_cidr_block = ""
+tags = {
+    "Name" = "public-rtb"
+}
+
+privatertb = {
+vpc_name = "vpc01"
+route_cidr_block = ""
+tags = {
+    "Name" = "private-rtb"
+}
+    }
+
+}
+
+rtb_assoc_config = {
+subnet_d = ""
+route_table_id = ""
 }

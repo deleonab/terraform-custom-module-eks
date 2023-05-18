@@ -1,7 +1,7 @@
-variable "vpc_config" {
-  
-}
+variable "vpc_config" {}
 
-variable "subnet_config" {
+variable "subnet_config" {}
+
+variable "region" {
   
 }
