@@ -3,11 +3,11 @@ variable "subnet_cidr_block" {
 }
 
 variable "availability_zone" {
-  
+
 }
 variable "tags" {
-  
+
 }
 variable "vpc_id" {
-  
+
 }

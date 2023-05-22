@@ -7,5 +7,5 @@ variable "instance_tenancy" {
 }
 
 variable "tags" {
-  
+
 }
