@@ -18,4 +18,8 @@ Attempts to Fix i.e remove the large file from the staged commit (terraform-prov
 #### This command removes the file from the Git index without deleting it from your local file system.
 Step 1: git rm -r --cached .terraform/providers/registry.terraform.io/hashicorp/aws/4.67.0/windows_amd64/terraform-provider-aws_v4.67.0_x5.exe
 
-Step 2: 
+##This did not work
+
+
+Step 2:  
+git filter-branch -f --index-filter 'git rm --cached -r --ignore-unmatch .terraform/'
