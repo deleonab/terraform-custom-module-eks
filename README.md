@@ -51,7 +51,7 @@ Each module folder will contain 3 sub folders
 ### Let's start by creating our  VPC ######### VPC ##########################################################
 This will be created in aws_vpc/main.tf
 
-# main.tf
+### main.tf
 ```
 resource "aws_vpc" "acme_vpc" {
   cidr_block       = var.vpc_cidr_block
@@ -60,7 +60,7 @@ resource "aws_vpc" "acme_vpc" {
   tags = var.tags
 }
 ```
-# variables.tf
+### variables.tf
 
 ```
 variable "vpc_cidr_block" {
@@ -75,17 +75,17 @@ variable "tags" {
   
 }
 ```
-# output.tf
+### output.tf
 ```
 output "vpc_id" {
   value = aws_vpc.acme_vpc.id
 }
 ```
 
-#####  Let's create our SUBNETS ########################################################################################
+####  Let's create our SUBNETS ########################################################################################
 This will be created in aws_subnets/main.tf
 
-# main.tf
+### main.tf
 ```
 resource "aws_subnet" "main" {
   vpc_id     = var.vpc_id
@@ -97,7 +97,7 @@ resource "aws_subnet" "main" {
 
 ```
 
-# variables.tf
+### variables.tf
 ```
 variable "subnet_cidr_block" {
   default = "10.0.0.0/24"
@@ -114,7 +114,7 @@ variable "vpc_id" {
 }
 
 ```
-# output.tf
+### output.tf
 
 ```
 output "subnet_id" {
@@ -127,7 +127,7 @@ output "subnet_id" {
 ### Let's create our INTERNET GATEWAY resource ####################################################
 This will be created in aws_IGW/main.tf
 
-# main.tf
+### main.tf
 
 ```
 resource "aws_internet_gateway" "igw" {
@@ -138,7 +138,7 @@ resource "aws_internet_gateway" "igw" {
 
 ```
 
-# variables.tf
+### variables.tf
 
 ```
 variable "tags" {
@@ -149,7 +149,7 @@ variable "vpc_id" {
 }
 ```
 
-# outputs.tf
+### outputs.tf
 
 ```
 output "IGW_id" {
@@ -163,7 +163,7 @@ output "IGW_id" {
 To allow internet access from the private subnets
 aws_nat_gateway/main.tf
 
-# main.tf
+### main.tf
 
 ```
 resource "aws_nat_gateway" "ngw" {
@@ -176,7 +176,7 @@ resource "aws_nat_gateway" "ngw" {
 }
 ```
 
-# variables.tf
+### variables.tf
 ```
 variable "allocation_id" {
 
@@ -188,7 +188,7 @@ variable "tags" {
 
 }
 ```
-# outputs.tf
+### outputs.tf
 
 ```
 output "nat_gateway_id" {
