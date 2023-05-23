@@ -491,7 +491,7 @@ That is the end of our child modules. We shall now create the root module to cal
 #### #######################################################################################
 
 
-# main.tf (root module)
+### main.tf (root module)
 
 ```
 module "aws_vpc_module" {
