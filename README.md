@@ -196,6 +196,107 @@ output "nat_gateway_id" {
 }
 ```
 
+### Let's create the ELASTIC IP #########################################################
+This is needed by the NAT Gateway
+
+aws_eip/main.tf
+
+### main.tf
+```
+resource "aws_eip" "natgw_eip" {
+
+  tags = var.tags
+}
+```
+### variables.tf
+```
+variable "tags" {
+
+}
+
+```
+### outputs.tf
+
+```
+output "eip_id" {
+  value = aws_eip.natgw_eip.id
+}
+```
 
 
+### It's time to create the ROUTE TABLES ###################################################
+aws_route_table/main.tf
 
+### main.tf
+```
+resource "aws_route_table" "rtb" {
+  vpc_id = var.vpc_id
+
+  route {
+    cidr_block = var.rtb_cidr_block
+    gateway_id = var.gateway_id
+  }
+
+```
+
+  tags = var.tags
+}
+### variables.tf
+```
+variable "vpc_id" {
+
+}
+
+variable "rtb_cidr_block" {
+  default = "0.0.0.0/0"
+}
+
+variable "gateway_id" {
+
+}
+
+variable "tags" {
+
+}
+```
+
+### outputs.tf
+```
+output "rtb_id" {
+  value = aws_route_table.rtb.id
+}
+```
+### ROUTE TABLE ASSOCIATIONS #######################################################
+Associate the route tables with their subnets
+aws_route_table_associations/main.tf
+
+### main.tf
+```
+resource "aws_route_table_association" "a" {
+  subnet_id      = var.subnet_id
+  route_table_id = var.route_table_id
+}
+```
+### variables.tf
+```
+variable "subnet_id" {
+
+}
+
+variable "route_table_id" {
+
+}
+```
+
+### outputs.tf
+```
+output "rtb_assoc_id" {
+  value = aws_route_table_association.a.id
+}
+```
+
+### main.tf
+
+### variables.tf
+
+### outputs.tf
