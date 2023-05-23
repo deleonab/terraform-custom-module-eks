@@ -1,13 +1,23 @@
+In this project , we shall be creating infrastructure and kubernetes EKS cluster in AWS using Terraform reusable modules.
+
+Code re-use is essential as the same code can be leveraged and used accross teams, projects, environments and teams. It also promotes consistency and standardisation and can be used to enforce best practices in your organisation. Other advantages are easier collaboration between teams.
+
 We shall be creating 
 1. A VPC
-2 public subnets and 4 private subnets
+2 public subnets and 2 private subnets 
+(I have used 2 private subnets instead of 4 to reduce costs. The lower tier should host the applications MySQL database)
+The public subnet will host our Jenkin and SonaQube servers with our Java application in the private subnet.
+|We shall also be using only 2 AZ's which is the minimum requirement for an EKS cluster.
+
 3. An Internet Gateway for the Public subnet
-4.  Two(2) NAT Gateways for each AZ for the private subnet
+4.  Two(2) NAT Gateways in the public subnets for each AZ.
 5. We shall deloying an EKS cluster into the private subnets 
 6. Cluster Role
 7. Nodegroup Role
 
+For this demo, we shall be storing our state flies locally but ideally, it should be stored remotely in an S3 bucket with Dynamo DB for state locking.
 
+Our folder structure will be as follows:
 Folder Structure
 
 config 
@@ -15,11 +25,20 @@ config
 modules
     aws_vpc
     aws_subnets
+    aws_IGW
+    aws_nat_gateway
+    aws_eip
+    aws_route_table
+    aws_route_table_association
+    aws_eks
+    aws_eks_nodegroups
 
 main.tf
 providers.tf
 versions.tf
 variables.tf
+README.md
+.gitignore
 
 ### VPC ######### VPC ######################
 
