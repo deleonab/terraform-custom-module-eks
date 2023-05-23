@@ -225,7 +225,7 @@ cluster_name = "cluster-key"
 node_i_am_role = "eks-node-role1"
 
 
-subnet1 ="private_us_east_1b"
+subnet1 ="private_us_east_1a"
 subnet2 ="private_us_east_1b"
 
 tags = {
