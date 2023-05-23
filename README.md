@@ -22,7 +22,7 @@ For this demo, we shall be storing our state flies locally but ideally, it shoul
 
 Our folder structure will be as follows:
 Folder Structure
-
+```
 config 
     terraform.tfvars
 modules
@@ -42,7 +42,7 @@ versions.tf
 variables.tf
 README.md
 .gitignore
-
+```
 Each module folder will contain 3 sub folders
 - main.tf
 - variables.tf
@@ -295,8 +295,8 @@ output "rtb_assoc_id" {
 }
 ```
 
-### That is all we need for our base architecture
-### The next step is to create our eks cluster and roles
+### That is all we need for our base architecture ############################################
+### The next step is to create our eks cluster and roles #####################################
 
 aws_eks/main.tf
 
@@ -371,3 +371,4 @@ output "eks_cluster_output_name" {
   
 }
 ```
+
