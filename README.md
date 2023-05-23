@@ -47,7 +47,33 @@ Each module folder will contain 3 sub folders
 - main.tf
 - variables.tf
 - output.tf
+### Before we start creating our resources, lets declare our provider and versions ############################################################################
+### We need to declare the provider we shall be needing which is AWS
 
+### versions.tf
+
+```
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+  }
+}
+```
+
+
+### Since we are creating for AWS, we need to configure the aws provider.
+
+### providers.tf
+```
+provider "aws" {
+  region = var.region
+}
+
+
+```
 ### Let's start by creating our  VPC ######### VPC ##########################################################
 This will be created in aws_vpc/main.tf
 
