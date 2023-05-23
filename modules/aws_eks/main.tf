@@ -10,7 +10,6 @@ resource "aws_eks_cluster" "acme_cluster" {
   # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
   depends_on = [
     aws_iam_role_policy_attachment.ACME-AmazonEKSClusterPolicy,
-    aws_iam_role_policy_attachment.ACME-AmazonEKSVPCResourceController,
     aws_iam_role_policy_attachment.ACME-AmazonEC2ContainerRegistryReadOnly,
 
   ]

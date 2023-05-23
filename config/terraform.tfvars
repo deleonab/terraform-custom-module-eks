@@ -182,7 +182,7 @@ eip_config = {
 eks_cluster_config = {
 
 cluster-key = {
-cluster_name = "ACME-cluster"
+cluster_name = "cluster-key"
 
 subnet1 = "public_us_east_1a"
 subnet2 = "public_us_east_1b"
@@ -201,15 +201,39 @@ tags = {
 
 nodegroup_config = {
 
-cluster_name = ""
+node1 = {
+node_group_name = "node1"
 
-subnet_ids = ""
+cluster_name = "cluster-key"
 
-node_group_name = ""
+node_i_am_role = "eks-node-role1"
+
+subnet1 ="private_us_east_1a"
+subnet2 ="private_us_east_1b"
 
 tags = {
 
-    "Name" = "ACME-cluster"
+    "Name" = "ACME-clusterNode1"
 }
+
+}
+node2 = {
+node_group_name = "node2"
+
+cluster_name = "cluster-key"
+
+node_i_am_role = "eks-node-role1"
+
+
+subnet1 ="private_us_east_1b"
+subnet2 ="private_us_east_1b"
+
+tags = {
+
+    "Name" = "ACME-clusterNode2"
+}
+
+}
+
 
 }

@@ -72,19 +72,19 @@ module "eks_module" {
   source = "./modules/aws_eks"
   for_each = var.eks_cluster_config
   cluster_name = each.value.cluster_name
-  subnet_ids = ""
+  subnet_ids = [module.aws_subnet_module[each.value.subnet1].subnet_id, module.aws_subnet_module[each.value.subnet2].subnet_id, module.aws_subnet_module[each.value.subnet3].subnet_id , module.aws_subnet_module[each.value.subnet4].subnet_id]
   tags= each.value.tags
 }
 
 module "nodegroups_module" {
   source = "./modules/aws_eks_nodegroups"
   for_each = var.nodegroup_config
-  cluster_name = each.value.cluster_name
-
-  subnet_ids = ""
-
   node_group_name = each.value.node_group_name
+  cluster_name = module.eks_module[each.value.cluster_name].eks_cluster_output_name
+  node_i_am_role = each.value.node_i_am_role
+  subnet_ids = [module.aws_subnet_module[each.value.subnet1].subnet_id, module.aws_subnet_module[each.value.subnet2].subnet_id]
 
+  
   tags = each.value.tags
 
 }
