@@ -372,3 +372,190 @@ output "eks_cluster_output_name" {
 }
 ```
 
+### Creation of our nodegroups ###################################################################################################################################
+aws_eks_nodegroups/main.tf
+
+
+### main.tf
+```
+resource "aws_eks_node_group" "worker_nodes" {
+  cluster_name    = var.cluster_name
+  node_group_name = var.node_group_name
+  node_role_arn   = aws_iam_role.nodegroup_role.arn
+  subnet_ids      = var.subnet_ids
+
+  scaling_config {
+    desired_size = 1
+    max_size     = 2
+    min_size     = 1
+  }
+
+  update_config {
+    max_unavailable = 1
+  }
+
+instance_types = [ "t3.medium" ]
+
+
+  # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
+  # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
+  depends_on = [
+    aws_iam_role_policy_attachment.ACME-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.ACME-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.ACME-AmazonEC2ContainerRegistryReadOnly,
+  ]
+  tags = var.tags
+}
+
+resource "aws_iam_role" "nodegroup_role" {
+  name = var.node_group_name
+
+  assume_role_policy = jsonencode({
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+    }]
+    Version = "2012-10-17"
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ACME-AmazonEKSWorkerNodePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role       = aws_iam_role.nodegroup_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "ACME-AmazonEKS_CNI_Policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.nodegroup_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "ACME-AmazonEC2ContainerRegistryReadOnly" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.nodegroup_role.name
+}
+```
+### variables.tf
+```
+
+variable "cluster_name" {
+  type = string
+}
+variable "subnet_ids" {
+  
+}
+
+variable "node_group_name" {
+  
+}
+variable "tags" {
+  
+}
+
+variable "node_i_am_role" {
+  
+}
+```
+### outputs.tf
+
+#### #####################################################################################
+That is the end of our child modules. We shall now create the root module to call the child modules
+#### #######################################################################################
+
+
+# main.tf (root module)
+
+```
+module "aws_vpc_module" {
+  source = "./modules/aws_vpc"
+
+  for_each = var.vpc_config
+
+  vpc_cidr_block = each.value.vpc_cidr_block
+
+  instance_tenancy = each.value.instance_tenancy
+
+  tags = each.value.tags
+
+}
+
+module "aws_subnet_module" {
+  source = "./modules/aws_subnets"
+
+  for_each = var.subnet_config
+
+  subnet_cidr_block = each.value.subnet_cidr_block
+
+  availability_zone = each.value.availability_zone
+
+  vpc_id = module.aws_vpc_module[each.value.vpc_name].vpc_id
+
+  tags = each.value.tags
+
+}
+
+
+module "IGW_module" {
+  source   = "./modules/aws_IGW"
+  for_each = var.IGW_config
+  vpc_id   = module.aws_vpc_module[each.value.vpc_name].vpc_id
+  tags     = each.value.tags
+
+}
+
+module "rtb_module" {
+  source     = "./modules/aws_route_table"
+  for_each   = var.rtb_config
+  vpc_id     = module.aws_vpc_module[each.value.vpc_name].vpc_id
+  gateway_id = each.value.private == 0 ? module.IGW_module[each.value.gateway_name].IGW_id : module.nat_gateway_module[each.value.gateway_name].nat_gateway_id
+  tags       = each.value.tags
+
+}
+
+
+
+module "rtb_assoc_module" {
+  source         = "./modules/aws_route_table_association"
+  for_each       = var.rtb_assoc_config
+  subnet_id      = module.aws_subnet_module[each.value.subnet_name].subnet_id
+  route_table_id = module.rtb_module[each.value.route_table_name].rtb_id
+}
+
+module "nat_gateway_module" {
+  source        = "./modules/aws_nat_gateway"
+  for_each      = var.natgw_config
+  subnet_id     = module.aws_subnet_module[each.value.subnet_name].subnet_id
+  allocation_id = module.eip_module[each.value.eip_name].eip_id
+  tags          = each.value.tags
+
+}
+
+module "eip_module" {
+  source   = "./modules/aws_eip"
+  for_each = var.eip_config
+  tags     = each.value.tags
+}
+
+module "eks_module" {
+  source = "./modules/aws_eks"
+  for_each = var.eks_cluster_config
+  cluster_name = each.value.cluster_name
+  subnet_ids = [module.aws_subnet_module[each.value.subnet1].subnet_id, module.aws_subnet_module[each.value.subnet2].subnet_id, module.aws_subnet_module[each.value.subnet3].subnet_id , module.aws_subnet_module[each.value.subnet4].subnet_id]
+  tags= each.value.tags
+}
+
+module "nodegroups_module" {
+  source = "./modules/aws_eks_nodegroups"
+  for_each = var.nodegroup_config
+  node_group_name = each.value.node_group_name
+  cluster_name = module.eks_module[each.value.cluster_name].eks_cluster_output_name
+  node_i_am_role = each.value.node_i_am_role
+  subnet_ids = [module.aws_subnet_module[each.value.subnet1].subnet_id, module.aws_subnet_module[each.value.subnet2].subnet_id]
+
+  
+  tags = each.value.tags
+
+}
+```
