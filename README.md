@@ -837,3 +837,39 @@ tags = {
 }
 ```
 
+### Let's test out our set up.
+
+### Initialise our configuration
+```
+terraform init
+```
+![Terraform init](./images/terraform-init.png)
+
+### Next we shall validate our terraform code to check syntax , dependency or typo errors
+
+```
+terraform validate
+```
+![terraform validate](./images/terraform-validate.png)
+
+### The next is to run our plan to see the infrastructure we shall be creating
+
+```
+terraform plan --var-file="config/terraform.tfvars"
+```
+
+![terraform plan](./images/terraform-plan.png)
+
+### We shall be creating 31 resources
+
+### Now let us create our infrastructure by applying our configuration
+### This could take up yo 15 minutes or more depending on size , number and type of the resources that are being created.
+
+```
+terraform apply --var-file="config/terraform.tfvars"
+```
+
+![terraform apply](./images/terraform-apply.png)
+
+### 31 Resources created.
+
