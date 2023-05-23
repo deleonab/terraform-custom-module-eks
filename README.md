@@ -40,7 +40,13 @@ variables.tf
 README.md
 .gitignore
 
-### VPC ######### VPC ######################
+Each module folder will contain 3 sub folders
+- main.tf
+- variables.tf
+- output.tf
+
+### Let's start by creating our  VPC ######### VPC ##########################################################
+This will be created in aws_vpc/main.tf
 
 # main.tf
 ```
@@ -66,9 +72,14 @@ variable "tags" {
   
 }
 ```
+# output.tf
+```
+output "vpc_id" {
+  value = aws_vpc.acme_vpc.id
+}
+```
 
-
-#####  SUBNETS ###########
+#####  Let's create our SUBNETS ########################################################################################
 
 # main.tf
 ```
@@ -89,17 +100,25 @@ variable "subnet_cidr_block" {
 }
 
 variable "availability_zone" {
-  
+
 }
 variable "tags" {
-  
-}
 
-variable "vpc_id"{
+}
+variable "vpc_id" {
 
 }
 
 ```
+# output.tf
+
+```
+output "subnet_id" {
+  value = aws_subnet.acme_subnet.id
+}
+
+```
+
 
 ### Let's call the modules into out main.tf at the root level
 
