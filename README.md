@@ -1,5 +1,8 @@
 In this project , we shall be creating infrastructure and kubernetes EKS cluster in AWS using Terraform reusable modules.
 
+![Terraform |Modules](./images/terraform-modules.jpg)
+
+
 Code re-use is essential as the same code can be leveraged and used accross teams, projects, environments and teams. It also promotes consistency and standardisation and can be used to enforce best practices in your organisation. Other advantages are easier collaboration between teams.
 
 We shall be creating 
