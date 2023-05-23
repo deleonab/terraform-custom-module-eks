@@ -80,6 +80,7 @@ output "vpc_id" {
 ```
 
 #####  Let's create our SUBNETS ########################################################################################
+This will be created in aws_subnets/main.tf
 
 # main.tf
 ```
@@ -120,15 +121,78 @@ output "subnet_id" {
 ```
 
 
-### Let's call the modules into out main.tf at the root level
+### Let's create our INTERNET GATEWAY resource ####################################################
+This will be created in aws_IGW/main.tf
+
+# main.tf
 
 ```
-module "aws_vpc_module" {
-  source = "./modules/aws_vpc"
-}
+resource "aws_internet_gateway" "igw" {
+  vpc_id = var.vpc_id
 
-module "aws_subnet_module" {
-  source = "./modules/aws_subnets"
+  tags = var.tags
 }
 
 ```
+
+# variables.tf
+
+```
+variable "tags" {
+
+}
+variable "vpc_id" {
+
+}
+```
+
+# outputs.tf
+
+```
+output "IGW_id" {
+  value = aws_internet_gateway.igw.id
+}
+
+```
+
+## Let's create our NAT GATEWAY ##########################################################
+
+To allow internet access from the private subnets
+aws_nat_gateway/main.tf
+
+# main.tf
+
+```
+resource "aws_nat_gateway" "ngw" {
+  allocation_id = var.allocation_id
+  subnet_id     = var.subnet_id
+
+  tags = var.tags
+
+
+}
+```
+
+# variables.tf
+```
+variable "allocation_id" {
+
+}
+variable "subnet_id" {
+
+}
+variable "tags" {
+
+}
+```
+# outputs.tf
+
+```
+output "nat_gateway_id" {
+  value = aws_nat_gateway.ngw.id
+}
+```
+
+
+
+
