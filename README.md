@@ -863,7 +863,7 @@ terraform plan --var-file="config/terraform.tfvars"
 ### We shall be creating 31 resources
 
 ### Now let us create our infrastructure by applying our configuration
-### This could take up yo 15 minutes or more depending on size , number and type of the resources that are being created.
+### This could take up to 15 minutes or more depending on size , number and type of the resources that are being created.
 
 ```
 terraform apply --var-file="config/terraform.tfvars"
@@ -873,3 +873,23 @@ terraform apply --var-file="config/terraform.tfvars"
 
 ### 31 Resources created.
 
+
+![image](./images/nodes.png)
+
+![image](./images/node-groups.png)
+
+![image](./images/instance1.png)
+
+![image](./images/subnets.png)
+
+![image](./images/cluster-key.png)
+
+![image](./images/cluster-policy.png)
+
+![image](./images/eip.png)
+
+![image](./images/igw.png)
+
+![image](./images/nat.png)
+
+![image](./images/routetables.png)

@@ -187,7 +187,7 @@ cluster_name = "cluster-key"
 subnet1 = "public_us_east_1a"
 subnet2 = "public_us_east_1b"
 subnet3 = "private_us_east_1a"
-subnet4 = "private_us_east_1a"
+subnet4 = "private_us_east_1b"
 
 
 tags = {
